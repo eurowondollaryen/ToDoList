@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -192,18 +193,12 @@
             var schedule = [];//기한이 있는 일정 배열
             var schedule_nodue_index = [];
             var schedule_index = [];
-            function is_late(date) {
+            function is_late(date) {//기한이 지났는지 지금 날짜와 비교해서 판별하는 함수
                 var currentTime = new Date();
                 var arr = date.split("-");
                 var year = currentTime.getFullYear();
-                var month = 11;
+                var month = currentTime.getMonth()+1;
                 var day = currentTime.getDate();
-                console.log(parseInt(arr[0]));
-                console.log(parseInt(arr[1]));
-                console.log(parseInt(arr[2]));
-                console.log(year);
-                console.log(11);
-                console.log(day);
                 if(parseInt(arr[0]) < year) return true;
                 else if(parseInt(arr[0]) > year) return false;
                 else {
@@ -222,7 +217,7 @@
                     }
                 }
             }
-            setInterval(function() {
+            setInterval(function() {//3초마다 한 번씩, 기한이 지난 일정이 있는지 확인
                 for(var i = 0; i < schedule_index.length; ++i) {
                     if(is_late(schedule[schedule_index[i]].due) && schedule[schedule_index[i]].finished == false) {
                         alert(schedule[schedule_index[i]].title + " 일정이 완료되지 않았어요!");
@@ -403,6 +398,10 @@
             $(document).ready(function() {
                 $("#addButton").click(function() {//일정 추가 버튼
                     if($("#dueOrNot").is(':checked')) {
+                        if($("#title").val() == "" || $("#content").val() == "" || $("#priority").val() == "") {
+                            alert("모두 입력해주세요!");
+                            return 1;
+                        }
                         var number = schedule_nodue.length;//0번째부터~n-1번째 까지
                         schedule_nodue.push({
                             id: number,
@@ -427,6 +426,10 @@
                         $("#undued").append(adder);
                     }
                     else {
+                        if($("#title").val() == "" || $("#content").val() == "" || $("#duedate").val() == "" ||$("#priority").val() == "") {
+                            alert("모두 입력해주세요!");
+                            return 1;
+                        }
                         var number = schedule.length;
                         schedule.push({
                             id: number,
